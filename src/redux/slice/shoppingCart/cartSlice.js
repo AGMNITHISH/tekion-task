@@ -27,6 +27,15 @@ const cartSlice = createSlice({
         message.warning(`product already there in cart`);
       }
     },
+    updateIncart: (state, action) => {
+      const { id } = action.payload;
+      state.data = state.data.map((product) => {
+        if (product.id === id) {
+          return { ...product, incart: "Yes" };
+        }
+        return product;
+      });
+    },
     increaseProductQty: (state, action) => {
       const newData = action.payload;
       const check = state.cartData.find((item) => item.id === newData.id);
@@ -63,6 +72,13 @@ const cartSlice = createSlice({
           (item) => item.id !== newData.id
         );
         state.cartData = filterData;
+        const updateIncartData = state.data.map((item) => {
+          if (item.id === newData.id) {
+            return { ...item, incart: "No" };
+          }
+          return item;
+        });
+        state.data = updateIncartData;
       }
     },
   },
@@ -73,7 +89,11 @@ const cartSlice = createSlice({
       })
       .addCase(cartApiCall.fulfilled, (state, action) => {
         state.status = "success";
-        state.data = action.payload;
+        const tempData = action.payload.products;
+        const result = tempData.map((item) => {
+          return { ...item, incart: "No" };
+        });
+        state.data = result;
       })
       .addCase(cartApiCall.rejected, (state, action) => {
         state.status = "failed";
@@ -83,6 +103,7 @@ const cartSlice = createSlice({
 });
 export const {
   addcart,
+  updateIncart,
   removeFromcart,
   increaseProductQty,
   decreaseProductQty,

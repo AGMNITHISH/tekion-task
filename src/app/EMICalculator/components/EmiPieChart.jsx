@@ -5,8 +5,6 @@ const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 const EmiPieChart = ({ pieData }) => {
   return (
     <>
-      {console.log("pi", pieData)}
-
       <PieChart width={300} height={300}>
         <Pie
           data={pieData}

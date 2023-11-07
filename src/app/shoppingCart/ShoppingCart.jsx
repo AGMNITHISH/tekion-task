@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { cartApiCall } from "../../redux/slice/shoppingCart/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import ProductList from "./content/ProductList";
@@ -6,18 +6,14 @@ import { BsCart4 } from "react-icons/bs";
 import { Link } from "react-router-dom";
 const ShoppingCart = () => {
   const dispatch = useDispatch();
-  const [data, setData] = useState([]);
-  const cartSliceData = useSelector((state) => state);
-  const { cartData } = useSelector((state) => state.cartSlice);
+
+  const { cartData, data } = useSelector((state) => state.cartSlice);
 
   useEffect(() => {
-    if (cartSliceData.cartSlice.status === "success") {
-      setData(cartSliceData.cartSlice.data?.products);
+    if (!data.length > 0) {
+      dispatch(cartApiCall());
     }
-  }, [cartSliceData]);
 
-  useEffect(() => {
-    dispatch(cartApiCall());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
@@ -39,7 +35,7 @@ const ShoppingCart = () => {
         </button>
       </div>
 
-      <ProductList data={data} />
+      <ProductList />
     </div>
   );
 };
