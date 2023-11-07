@@ -11,8 +11,11 @@ import { FaSortAlphaDown, FaSortAlphaUp } from "react-icons/fa";
 import { BiSolidArrowToLeft, BiSolidArrowToRight } from "react-icons/bi";
 import RTableGlobalFilter from "./RTableGlobalFilter";
 import ColumnFilter from "./ColumnFilter";
+import { useSelector } from "react-redux";
 
-const AddToFavTable = ({ tblData, tblColumns }) => {
+const AddToFavTable = ({ tblColumns }) => {
+  const { favTblData } = useSelector((state) => state.reactTableSlice);
+
   const COLUMNS = useMemo(() => tblColumns, [tblColumns]);
   const defaultColumns = useMemo(() => {
     return {
@@ -38,7 +41,7 @@ const AddToFavTable = ({ tblData, tblColumns }) => {
   } = useTable(
     {
       columns: COLUMNS,
-      data: tblData,
+      data: favTblData,
       initialState: { pageSize: 5 },
       defaultColumn: defaultColumns,
     },
@@ -52,7 +55,7 @@ const AddToFavTable = ({ tblData, tblColumns }) => {
   const { globalFilter, pageIndex, pageSize } = state;
   return (
     <div>
-      {tblData.length > 0 && tblColumns.length > 0 ? (
+      {favTblData.length > 0 && tblColumns.length > 0 ? (
         <>
           {" "}
           <div className="relative overflow-x-auto shadow-md m-4 sm:rounded-lg">

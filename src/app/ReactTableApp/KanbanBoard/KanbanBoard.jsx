@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { useSelector, useDispatch } from "react-redux";
+import { updateStockStatus } from "../../../redux/slice/reactTable/reactTableSlice";
 
-const KanbanBoard = ({ tblData, setTblData }) => {
+const KanbanBoard = () => {
+  const dispatch = useDispatch();
+  const { tblData } = useSelector((state) => state.reactTableSlice);
+
   const [taskStatus, setTaskStatus] = useState([]);
   const [task, setTask] = useState([]);
 
@@ -70,15 +75,7 @@ const KanbanBoard = ({ tblData, setTblData }) => {
         result.destination.droppableId
       );
 
-      setTblData((prev) => {
-        return prev.map((item) => {
-          if (item.brand === filterRow[0].brand) {
-            return { ...item, status: desDropStatus };
-          } else {
-            return item;
-          }
-        });
-      });
+      dispatch(updateStockStatus({ status: desDropStatus, row: filterRow[0] }));
 
       setColumns({
         ...columns,

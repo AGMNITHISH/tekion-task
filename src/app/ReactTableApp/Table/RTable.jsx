@@ -13,37 +13,26 @@ import RTableGlobalFilter from "./RTableGlobalFilter";
 import ColumnFilter from "./ColumnFilter";
 import AddToFavTable from "./AddToFavTable";
 import KanbanBoard from "../KanbanBoard/KanbanBoard";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addTblData,
+  addrTblData,
+  addfavTblData,
+  updateBrandStatus,
+} from "../../../redux/slice/reactTable/reactTableSlice";
 const RTable = () => {
-  const [tblData, setTblData] = useState([]);
-  const [rTblData, setRTblData] = useState([]);
-  const [favTblData, setFavtblData] = useState([]);
+  const dispatch = useDispatch();
+
   const [tblColumns, setTblColumns] = useState([]);
 
+  const { tblData, rTblData } = useSelector((state) => state.reactTableSlice);
+
   useEffect(() => {
-    setTblData(data.cars);
-  }, []);
+    dispatch(addTblData(data.cars));
+  }, [dispatch]);
 
   const handleFav = (view, row) => {
-    const { brand } = row;
-    if (view === "add") {
-      setTblData((prev) => {
-        return prev.map((data) => {
-          if (data.brand === brand) {
-            return { ...data, favorites: "Yes" };
-          }
-          return data;
-        });
-      });
-    } else if (view === "remove") {
-      setTblData((prev) => {
-        return prev.map((data) => {
-          if (data.brand === brand) {
-            return { ...data, favorites: "No" };
-          }
-          return data;
-        });
-      });
-    }
+    dispatch(updateBrandStatus({ view, row }));
   };
 
   // dynamic column creation logic
@@ -133,14 +122,16 @@ const RTable = () => {
         }
       });
       setTblColumns(makeColumns);
+
       const filterRTableDatas = tblData.filter(
         (data) => data.favorites === "No"
       );
-      setRTblData(filterRTableDatas);
+      dispatch(addrTblData(filterRTableDatas));
 
       const filterFavDatas = tblData.filter((data) => data.favorites === "Yes");
-      setFavtblData(filterFavDatas);
+      dispatch(addfavTblData(filterFavDatas));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tblData]);
 
   const COLUMNS = useMemo(() => tblColumns, [tblColumns]);
@@ -321,20 +312,15 @@ const RTable = () => {
               </button>
             </div>
           </div>
-          {favTblData.length > 0 && tblData.length > 0 ? (
+          {tblData.length > 0 ? (
             <>
-              <AddToFavTable
-                tblData={favTblData}
-                tblColumns={tblColumns}
-                handleFav={handleFav}
-              />
+              <AddToFavTable tblColumns={tblColumns} />
             </>
           ) : (
             ""
           )}
           <div className="m-4">
-            {" "}
-            <KanbanBoard tblData={tblData} setTblData={setTblData} />
+            <KanbanBoard />
           </div>
         </>
       ) : (
