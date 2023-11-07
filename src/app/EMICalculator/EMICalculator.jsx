@@ -49,11 +49,8 @@ const EMICalculator = () => {
   }, [inputValue1, inputValue2, inputValue3]);
 
   return (
-    <>
-      <div className="text-center text-3xl py-4 border-black italic font-serif font-medium">
-        EMI calculator
-      </div>
-      <div className="border h-full min-h-screen	 rounded-md bg-slate-100   mx-16 py-10 px-20">
+    <div className="p-8">
+      <div className="border h-full min-h-screen 	 rounded-md bg-slate-100   mx-16 py-10 px-20">
         <InputSlider
           label="Loan Amount"
           inputValue1={inputValue1}
@@ -130,7 +127,7 @@ const EMICalculator = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
