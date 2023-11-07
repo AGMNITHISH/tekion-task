@@ -22,6 +22,7 @@ const InputSlider = ({
               className="bg-gray-50 border border-gray-800 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  p-2.5"
               type="number"
               min={0}
+              placeholder="Enter value"
               value={inputValue1}
               onChange={(e) => setInputValue1(e.target.value)}
             />

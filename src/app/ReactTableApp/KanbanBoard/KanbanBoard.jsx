@@ -107,8 +107,10 @@ const KanbanBoard = () => {
     <>
       {taskStatus.length !== 0 ? (
         <>
-          <div className="">Kanban DashBoard</div>
-          <div className="flex justify-center  h-full">
+          <div className="flex items-center justify-center text-2xl font-semibold text-neutral-800 pb-3 ">
+            Kanban Board
+          </div>
+          <div className="flex justify-center relative overflow-x-auto shadow-md m-4  h-full">
             <DragDropContext
               onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
             >

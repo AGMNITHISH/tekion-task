@@ -58,7 +58,10 @@ const AddToFavTable = ({ tblColumns }) => {
       {favTblData.length > 0 && tblColumns.length > 0 ? (
         <>
           {" "}
-          <div className="relative overflow-x-auto shadow-md m-4 sm:rounded-lg">
+          <div className="relative overflow-x-auto shadow-md m-4 ">
+            <div className="flex items-center justify-center text-2xl font-semibold text-neutral-800 pb-3 ">
+              Favorites Table
+            </div>
             <RTableGlobalFilter
               filter={globalFilter}
               setFilter={setGlobalFilter}
@@ -67,7 +70,7 @@ const AddToFavTable = ({ tblColumns }) => {
               {...getTableProps()}
               className="w-full text-sm text-left text-gray-500 "
             >
-              <thead className="text-xs text-white uppercase bor bg-gray-500">
+              <thead className="text-xs text-white uppercase bor bg-gray-900">
                 {headerGroups?.map((headerGroup, ind) => {
                   return (
                     <tr key={ind} {...headerGroup.getHeaderGroupProps()}>
@@ -166,28 +169,28 @@ const AddToFavTable = ({ tblColumns }) => {
                 </select>
               </span>
               <button
-                className=" text-white bg-gray-500 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+                className="text-white bg-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2"
                 onClick={() => gotoPage(0)}
                 disabled={!canPreviousPage}
               >
                 {"<<"}
               </button>
               <button
-                className=" ml-2 text-white bg-gray-500 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+                className="text-white bg-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2"
                 onClick={() => previousPage()}
                 disabled={!canPreviousPage}
               >
                 <BiSolidArrowToLeft />
               </button>
               <button
-                className="ml-2 mr-2 text-white bg-gray-500 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+                className="text-white bg-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2"
                 onClick={() => nextPage()}
                 disabled={!canNextPage}
               >
                 <BiSolidArrowToRight />
               </button>
               <button
-                className="text-white bg-gray-500 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+                className="text-white bg-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2"
                 onClick={() => gotoPage(pageCount - 1)}
                 disabled={!canNextPage}
               >
