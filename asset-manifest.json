@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/tekion-task/static/css/main.fc9238b3.css",
-    "main.js": "/tekion-task/static/js/main.9f5561ed.js",
+    "main.js": "/tekion-task/static/js/main.98119831.js",
     "static/media/benz.jpeg": "/tekion-task/static/media/benz.ebf26fe4429a87432e4d.jpeg",
     "static/media/toyota.jpeg": "/tekion-task/static/media/toyota.8369a92b11019d01b35e.jpeg",
     "static/media/hyundai.jpeg": "/tekion-task/static/media/hyundai.8d3b4c56f0f74bb530b7.jpeg",
     "static/media/Lexus.jpeg": "/tekion-task/static/media/Lexus.8180483677c924156074.jpeg",
     "index.html": "/tekion-task/index.html",
     "main.fc9238b3.css.map": "/tekion-task/static/css/main.fc9238b3.css.map",
-    "main.9f5561ed.js.map": "/tekion-task/static/js/main.9f5561ed.js.map"
+    "main.98119831.js.map": "/tekion-task/static/js/main.98119831.js.map"
   },
   "entrypoints": [
     "static/css/main.fc9238b3.css",
-    "static/js/main.9f5561ed.js"
+    "static/js/main.98119831.js"
   ]
 }
