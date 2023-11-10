@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import data from "../../staic/data/reactTable/data.json";
+
 import {
   useFilters,
   useTable,
@@ -15,25 +15,34 @@ import AddToFavTable from "./AddToFavTable";
 import KanbanBoard from "../KanbanBoard/KanbanBoard";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  addTblData,
   addrTblData,
   addfavTblData,
   updateBrandStatus,
+  getAllTableApi,
 } from "../../../redux/slice/reactTable/reactTableSlice";
+
 const RTable = () => {
   const dispatch = useDispatch();
 
   const [tblColumns, setTblColumns] = useState([]);
 
-  const { tblData, rTblData } = useSelector((state) => state.reactTableSlice);
-
-  useEffect(() => {
-    dispatch(addTblData(data.cars));
-  }, [dispatch]);
+  const { tblData, rTblData, modelStatus } = useSelector(
+    (state) => state.reactTableSlice
+  );
 
   const handleFav = (view, row) => {
     dispatch(updateBrandStatus({ view, row }));
   };
+
+  useEffect(() => {
+    dispatch(getAllTableApi());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (modelStatus === "success") {
+      dispatch(getAllTableApi());
+    }
+  }, [modelStatus, dispatch]);
 
   // dynamic column creation logic
   useEffect(() => {

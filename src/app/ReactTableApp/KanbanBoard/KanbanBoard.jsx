@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useSelector, useDispatch } from "react-redux";
-import { updateStockStatus } from "../../../redux/slice/reactTable/reactTableSlice";
+import { updateTableDataBasedOnModel } from "../../../redux/slice/reactTable/reactTableSlice";
 
 const KanbanBoard = () => {
   const dispatch = useDispatch();
@@ -18,6 +18,7 @@ const KanbanBoard = () => {
           image: data.image,
           status: data.status,
           brand: data.brand,
+          model: data.model,
         };
         return obj;
       });
@@ -75,7 +76,12 @@ const KanbanBoard = () => {
         result.destination.droppableId
       );
 
-      dispatch(updateStockStatus({ status: desDropStatus, row: filterRow[0] }));
+      dispatch(
+        updateTableDataBasedOnModel({
+          status: desDropStatus,
+          row: filterRow[0],
+        })
+      );
 
       setColumns({
         ...columns,

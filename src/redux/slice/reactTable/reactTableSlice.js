@@ -1,18 +1,37 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+import { reactTable_RootURL } from "../../../constants";
 
 const initialState = {
   tblData: [],
   rTblData: [],
   favTblData: [],
+  status: "idle",
+  modelStatus: "idle",
 };
+
+export const getAllTableApi = createAsyncThunk("getAllTableApi", async () => {
+  const response = await axios.get(`${reactTable_RootURL}`);
+  return response.data;
+});
+
+export const updateTableDataBasedOnModel = createAsyncThunk(
+  "updateTableDataBasedOnModel",
+  async ({ status, row }) => {
+    let data = { status };
+
+    const response = await axios.put(
+      `${reactTable_RootURL}/${row.model}`,
+      data
+    );
+    return response.data;
+  }
+);
 
 const reactTableSlice = createSlice({
   name: "reactTableSlice",
   initialState,
   reducers: {
-    addTblData: (state, action) => {
-      state.tblData = action.payload;
-    },
     addrTblData: (state, action) => {
       state.rTblData = action.payload;
     },
@@ -38,25 +57,32 @@ const reactTableSlice = createSlice({
         });
       }
     },
-    updateStockStatus: (state, action) => {
-      const { row, status } = action.payload;
-      const { brand } = row;
-      state.tblData = state.tblData.map((item) => {
-        if (item.brand === brand) {
-          return { ...item, status: status };
-        }
-        return item;
-      });
-    },
   },
 
-  extraReducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(getAllTableApi.pending, (state) => {
+        state.status = "pending";
+      })
+      .addCase(getAllTableApi.fulfilled, (state, action) => {
+        state.status = "success";
+        const { doc } = action.payload;
+        state.tblData = doc;
+      })
+      .addCase(getAllTableApi.rejected, (state) => {
+        state.status = "rejected";
+      })
+      .addCase(updateTableDataBasedOnModel.pending, (state) => {
+        state.modelStatus = "pending";
+      })
+      .addCase(updateTableDataBasedOnModel.fulfilled, (state, payload) => {
+        state.modelStatus = "success";
+      })
+      .addCase(updateTableDataBasedOnModel.rejected, (state) => {
+        state.modelStatus = "rejected";
+      });
+  },
 });
-export const {
-  addTblData,
-  addrTblData,
-  addfavTblData,
-  updateBrandStatus,
-  updateStockStatus,
-} = reactTableSlice.actions;
+export const { addTblData, addrTblData, addfavTblData, updateBrandStatus } =
+  reactTableSlice.actions;
 export default reactTableSlice.reducer;
