@@ -17,8 +17,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addrTblData,
   addfavTblData,
-  updateBrandStatus,
   getAllTableApi,
+  updateTableDataFav,
 } from "../../../redux/slice/reactTable/reactTableSlice";
 
 const RTable = () => {
@@ -26,12 +26,12 @@ const RTable = () => {
 
   const [tblColumns, setTblColumns] = useState([]);
 
-  const { tblData, rTblData, modelStatus } = useSelector(
+  const { tblData, rTblData, modelStatus, favStatus } = useSelector(
     (state) => state.reactTableSlice
   );
 
   const handleFav = (view, row) => {
-    dispatch(updateBrandStatus({ view, row }));
+    dispatch(updateTableDataFav({ view, model: row.model }));
   };
 
   useEffect(() => {
@@ -39,10 +39,10 @@ const RTable = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (modelStatus === "success") {
+    if (modelStatus === "success" || favStatus === "success") {
       dispatch(getAllTableApi());
     }
-  }, [modelStatus, dispatch]);
+  }, [modelStatus, favStatus, dispatch]);
 
   // dynamic column creation logic
   useEffect(() => {

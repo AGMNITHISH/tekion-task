@@ -8,6 +8,7 @@ const initialState = {
   favTblData: [],
   status: "idle",
   modelStatus: "idle",
+  favStatus: "idle",
 };
 
 export const getAllTableApi = createAsyncThunk("getAllTableApi", async () => {
@@ -27,6 +28,25 @@ export const updateTableDataBasedOnModel = createAsyncThunk(
     return response.data;
   }
 );
+export const updateTableDataFav = createAsyncThunk(
+  "updateTableDataFav",
+  async ({ view, model }) => {
+    let fav = "";
+    if (view === "add") {
+      fav = "Yes";
+    } else if (view === "remove") {
+      fav = "No";
+    }
+    let data = {
+      favorites: fav,
+    };
+    const response = await axios.put(
+      `${reactTable_RootURL}/fav/${model}`,
+      data
+    );
+    return response.data;
+  }
+);
 
 const reactTableSlice = createSlice({
   name: "reactTableSlice",
@@ -37,25 +57,6 @@ const reactTableSlice = createSlice({
     },
     addfavTblData: (state, action) => {
       state.favTblData = action.payload;
-    },
-    updateBrandStatus: (state, action) => {
-      const { view, row } = action.payload;
-      const { brand } = row;
-      if (view === "add") {
-        state.tblData = state.tblData.map((Item) => {
-          if (Item.brand === brand) {
-            return { ...Item, favorites: "Yes" };
-          }
-          return Item;
-        });
-      } else if (view === "remove") {
-        state.tblData = state.tblData.map((Item) => {
-          if (Item.brand === brand) {
-            return { ...Item, favorites: "No" };
-          }
-          return Item;
-        });
-      }
     },
   },
 
@@ -75,14 +76,23 @@ const reactTableSlice = createSlice({
       .addCase(updateTableDataBasedOnModel.pending, (state) => {
         state.modelStatus = "pending";
       })
-      .addCase(updateTableDataBasedOnModel.fulfilled, (state, payload) => {
+      .addCase(updateTableDataBasedOnModel.fulfilled, (state) => {
         state.modelStatus = "success";
       })
       .addCase(updateTableDataBasedOnModel.rejected, (state) => {
         state.modelStatus = "rejected";
+      })
+      .addCase(updateTableDataFav.pending, (state) => {
+        state.favStatus = "pending";
+      })
+      .addCase(updateTableDataFav.fulfilled, (state) => {
+        state.favStatus = "success";
+      })
+      .addCase(updateTableDataFav.rejected, (state) => {
+        state.favStatus = "rejected";
       });
   },
 });
-export const { addTblData, addrTblData, addfavTblData, updateBrandStatus } =
+export const { addTblData, addrTblData, addfavTblData } =
   reactTableSlice.actions;
 export default reactTableSlice.reducer;
