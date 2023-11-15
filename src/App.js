@@ -3,11 +3,11 @@ import Header from "./layouts/Header";
 import Content from "./layouts/Content";
 import Footer from "./layouts/Footer";
 
-const App = () => {
+const App = ({ children }) => {
   return (
     <div>
       <Header />
-      <Content />
+      <Content>{children}</Content>
       <Footer />
     </div>
   );

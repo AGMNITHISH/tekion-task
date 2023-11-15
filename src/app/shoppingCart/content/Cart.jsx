@@ -32,7 +32,7 @@ const Cart = () => {
           <>
             <div className="flex items-end justify-end mr-96 pt-3 ">
               <span className="border flex px-3 py-2 rounded-md  bg-gray-400 cursor-pointer border-black hover:bg-gray-500 hover:text-white hover:border-white ">
-                <Link to="/" className="flex">
+                <Link to="/main" className="flex">
                   <BiSolidShoppingBags className="text-2xl  pr-2" /> Back to
                   shop
                 </Link>
@@ -97,7 +97,7 @@ const Cart = () => {
           <div className="flex flex-col items-center justify-center h-96">
             <BiSolidCart className="text-7xl" />
             <div className="text-3xl font-mono">Your cart is empty</div>
-            <Link to="/">
+            <Link to="/main">
               <button
                 type="button"
                 className="px-8 py-2 my-4 text-white bg-blue-600 hover:bg-blue-800 rounded-full focus:outline-none disabled:opacity-100"
