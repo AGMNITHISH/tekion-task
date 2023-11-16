@@ -12,7 +12,11 @@ const initialState = {
 };
 
 export const getAllTableApi = createAsyncThunk("getAllTableApi", async () => {
-  const response = await axios.get(`${reactTable_RootURL}`);
+  const response = await axios.get(`${reactTable_RootURL}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
   return response.data;
 });
 
@@ -23,7 +27,12 @@ export const updateTableDataBasedOnModel = createAsyncThunk(
 
     const response = await axios.put(
       `${reactTable_RootURL}/${row.model}`,
-      data
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
     );
     return response.data;
   }
@@ -42,7 +51,12 @@ export const updateTableDataFav = createAsyncThunk(
     };
     const response = await axios.put(
       `${reactTable_RootURL}/fav/${model}`,
-      data
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
     );
     return response.data;
   }

@@ -17,7 +17,11 @@ const CreateNewRecord = ({ handleModal, isModalOpen }) => {
     event.preventDefault();
 
     axios
-      .post(`${reactTable_RootURL}`, inputs)
+      .post(`${reactTable_RootURL}`, inputs, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
       .then((res) => {
         if (res.status === 201) {
           message.success("new record added");
