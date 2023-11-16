@@ -7,9 +7,11 @@ import { PiPowerBold } from "react-icons/pi";
 import { FaFileVideo, FaCircleUser } from "react-icons/fa6";
 import { Tooltip } from "antd";
 import { findActiveRoute } from "./activeNav";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { updateSliceStatus } from "../redux/slice/login/LoginSlice";
 
 const Header = () => {
+  const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
   const [activeId, setActiveId] = useState("0");
@@ -71,6 +73,8 @@ const Header = () => {
                   <PiPowerBold
                     className="text-2xl ml-3 cursor-pointer text-red-400 hover:text-red-500"
                     onClick={() => {
+                      dispatch(updateSliceStatus());
+                      localStorage.setItem("token", "");
                       navigate("/");
                     }}
                   />
