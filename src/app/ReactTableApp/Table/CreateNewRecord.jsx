@@ -1,13 +1,14 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { reactTable_RootURL } from "../../../constants";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { message } from "antd";
 import { getAllTableApi } from "../../../redux/slice/reactTable/reactTableSlice";
 
 const CreateNewRecord = ({ handleModal, isModalOpen }) => {
   const dispatch = useDispatch();
   const [inputs, setInputs] = useState({});
+  const { me } = useSelector((state) => state.LoginSlice);
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -15,9 +16,11 @@ const CreateNewRecord = ({ handleModal, isModalOpen }) => {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
+    const formData = inputs;
+    formData["userId"] = me.id;
 
     axios
-      .post(`${reactTable_RootURL}`, inputs, {
+      .post(`${reactTable_RootURL}`, formData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -25,7 +28,7 @@ const CreateNewRecord = ({ handleModal, isModalOpen }) => {
       .then((res) => {
         if (res.status === 201) {
           message.success("new record added");
-          dispatch(getAllTableApi());
+          dispatch(getAllTableApi(me.id));
           handleModal(!isModalOpen);
         } else {
           message.error("new row not inserted");

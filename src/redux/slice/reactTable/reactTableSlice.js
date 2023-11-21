@@ -11,8 +11,8 @@ const initialState = {
   favStatus: "idle",
 };
 
-export const getAllTableApi = createAsyncThunk("getAllTableApi", async () => {
-  const response = await axios.get(`${reactTable_RootURL}`, {
+export const getAllTableApi = createAsyncThunk("getAllTableApi", async (id) => {
+  const response = await axios.get(`${reactTable_RootURL}/${id}`, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
@@ -82,7 +82,9 @@ const reactTableSlice = createSlice({
       .addCase(getAllTableApi.fulfilled, (state, action) => {
         state.status = "success";
         const { doc } = action.payload;
-        state.tblData = doc;
+        if (doc != null) {
+          state.tblData = doc;
+        }
       })
       .addCase(getAllTableApi.rejected, (state) => {
         state.status = "rejected";

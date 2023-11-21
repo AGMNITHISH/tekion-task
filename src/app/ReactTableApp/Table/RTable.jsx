@@ -29,20 +29,23 @@ const RTable = () => {
   const { tblData, rTblData, modelStatus, favStatus } = useSelector(
     (state) => state.reactTableSlice
   );
+  const { me, meStatus } = useSelector((state) => state.LoginSlice);
 
   const handleFav = (view, row) => {
     dispatch(updateTableDataFav({ view, model: row.model }));
   };
 
   useEffect(() => {
-    dispatch(getAllTableApi());
-  }, [dispatch]);
+    if (meStatus === "success") {
+      dispatch(getAllTableApi(me.id));
+    }
+  }, [meStatus, me, dispatch]);
 
   useEffect(() => {
     if (modelStatus === "success" || favStatus === "success") {
-      dispatch(getAllTableApi());
+      dispatch(getAllTableApi(me.id));
     }
-  }, [modelStatus, favStatus, dispatch]);
+  }, [modelStatus, me, favStatus, dispatch]);
 
   // dynamic column creation logic
   useEffect(() => {
