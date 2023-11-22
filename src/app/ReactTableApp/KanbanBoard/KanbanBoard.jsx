@@ -9,6 +9,7 @@ const KanbanBoard = () => {
 
   const [taskStatus, setTaskStatus] = useState([]);
   const [task, setTask] = useState([]);
+  const { me } = useSelector((state) => state.LoginSlice);
 
   useEffect(() => {
     if (tblData.length > 0) {
@@ -80,6 +81,7 @@ const KanbanBoard = () => {
         updateTableDataBasedOnModel({
           status: desDropStatus,
           row: filterRow[0],
+          id: me.id,
         })
       );
 

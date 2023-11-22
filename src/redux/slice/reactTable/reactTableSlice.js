@@ -58,8 +58,8 @@ export const getAllTableApi = createAsyncThunk("getAllTableApi", async (id) => {
 
 export const updateTableDataBasedOnModel = createAsyncThunk(
   "updateTableDataBasedOnModel",
-  async ({ status, row }) => {
-    let data = { status };
+  async ({ status, row, id }) => {
+    let data = { status, id };
 
     const response = await axios.put(
       `${reactTable_RootURL}/${row.model}`,
@@ -75,7 +75,7 @@ export const updateTableDataBasedOnModel = createAsyncThunk(
 );
 export const updateTableDataFav = createAsyncThunk(
   "updateTableDataFav",
-  async ({ view, model }) => {
+  async ({ view, model, id }) => {
     let fav = "";
     if (view === "add") {
       fav = "Yes";
@@ -84,6 +84,7 @@ export const updateTableDataFav = createAsyncThunk(
     }
     let data = {
       favorites: fav,
+      userId: id,
     };
     const response = await axios.put(
       `${reactTable_RootURL}/fav/${model}`,

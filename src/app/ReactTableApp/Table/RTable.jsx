@@ -32,7 +32,7 @@ const RTable = () => {
   const { me, meStatus } = useSelector((state) => state.LoginSlice);
 
   const handleFav = (view, row) => {
-    dispatch(updateTableDataFav({ view, model: row.model }));
+    dispatch(updateTableDataFav({ view, model: row.model, id: me.id }));
   };
 
   useEffect(() => {
