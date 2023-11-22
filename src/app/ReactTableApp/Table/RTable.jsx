@@ -339,7 +339,7 @@ const RTable = () => {
           </div>
         </>
       ) : (
-        <div>Loading...</div>
+        <div> No data available </div>
       )}
     </div>
   );

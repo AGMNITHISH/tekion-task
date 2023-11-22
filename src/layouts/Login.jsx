@@ -31,6 +31,7 @@ const Login = () => {
 
   useEffect(() => {
     if (newUserStatus === "success") {
+      message.success("User added successfully");
       navigate("/");
       setActiveState("login");
       setInputs([]);
@@ -41,6 +42,7 @@ const Login = () => {
   useEffect(() => {
     if (tokenStatus === "success") {
       localStorage.setItem("token", token);
+      message.success("user logged in successfully");
       navigate("/main");
     } else if (tokenStatus === "rejected") {
       message.error("login failed");

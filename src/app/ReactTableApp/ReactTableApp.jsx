@@ -28,8 +28,9 @@ const ReactTableApp = () => {
       </div>
 
       <Modal
-        title="Basic Modal"
+        title="Create new record"
         footer={null}
+        width="50%"
         open={isModalOpen}
         destroyOnClose={true}
         onCancel={handleModal}
