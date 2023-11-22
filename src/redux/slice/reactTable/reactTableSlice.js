@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { reactTable_RootURL } from "../../../constants";
+import { carTable_RootURL, reactTable_RootURL } from "../../../constants";
 
 const initialState = {
   tblData: [],
@@ -9,7 +9,43 @@ const initialState = {
   status: "idle",
   modelStatus: "idle",
   favStatus: "idle",
+  carData: [],
+  carModelData: [],
+  carBodyData: [],
+  carBodyStatus: "idle",
+  carModelStatus: "idle",
+  carStatus: "idle",
 };
+export const getCarBodyBasedOnModel = createAsyncThunk(
+  "getCarBodyBasedOnModel",
+  async (model) => {
+    const response = axios.get(`${carTable_RootURL}/type/${model}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    return (await response).data;
+  }
+);
+export const getAllCars = createAsyncThunk("getAllCars", async () => {
+  const response = axios.get(`${carTable_RootURL}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+  return (await response).data;
+});
+export const getModelBasedOnBrand = createAsyncThunk(
+  "getModelBasedOnBrand",
+  async (brand) => {
+    const response = axios.get(`${carTable_RootURL}/${brand}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    return (await response).data;
+  }
+);
 
 export const getAllTableApi = createAsyncThunk("getAllTableApi", async (id) => {
   const response = await axios.get(`${reactTable_RootURL}/${id}`, {
@@ -72,6 +108,14 @@ const reactTableSlice = createSlice({
     addfavTblData: (state, action) => {
       state.favTblData = action.payload;
     },
+    resetCreatePopupDatas: (state, action) => {
+      state.carBodyData = [];
+      state.carBodyStatus = "idle";
+      state.carData = [];
+      state.carStatus = "idle";
+      state.carModelData = [];
+      state.carModelStatus = "idle";
+    },
   },
 
   extraReducers: (builder) => {
@@ -106,9 +150,39 @@ const reactTableSlice = createSlice({
       })
       .addCase(updateTableDataFav.rejected, (state) => {
         state.favStatus = "rejected";
+      })
+      .addCase(getAllCars.pending, (state) => {
+        state.carStatus = "pending";
+      })
+      .addCase(getAllCars.fulfilled, (state, action) => {
+        state.carStatus = "success";
+        state.carData = action.payload.data;
+      })
+      .addCase(getAllCars.rejected, (state) => {
+        state.carStatus = "rejected";
+      })
+      .addCase(getModelBasedOnBrand.pending, (state) => {
+        state.carModelStatus = "pending";
+      })
+      .addCase(getModelBasedOnBrand.fulfilled, (state, action) => {
+        state.carModelStatus = "success";
+        state.carModelData = action.payload.data;
+      })
+      .addCase(getModelBasedOnBrand.rejected, (state) => {
+        state.carModelStatus = "rejected";
+      })
+      .addCase(getCarBodyBasedOnModel.pending, (state) => {
+        state.carBodyStatus = "pending";
+      })
+      .addCase(getCarBodyBasedOnModel.fulfilled, (state, action) => {
+        state.carBodyStatus = "success";
+        state.carBodyData = action.payload.data;
+      })
+      .addCase(getCarBodyBasedOnModel.rejected, (state) => {
+        state.carBodyStatus = "rejected";
       });
   },
 });
-export const { addTblData, addrTblData, addfavTblData } =
+export const { addTblData, addrTblData, addfavTblData, resetCreatePopupDatas } =
   reactTableSlice.actions;
 export default reactTableSlice.reducer;

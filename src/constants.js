@@ -1,5 +1,6 @@
 export const shoppingcart_URL = "https://dummyjson.com/products";
 export const reactTable_RootURL = "http://localhost:8080/react-table";
+export const carTable_RootURL = "http://localhost:8080/car";
 export const login_RootURL = "http://localhost:8080/user";
 export const marks = {
   0: "0",

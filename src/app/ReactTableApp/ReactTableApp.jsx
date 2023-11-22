@@ -2,12 +2,18 @@ import React, { useState } from "react";
 import RTable from "./Table/RTable";
 import { Modal } from "antd";
 import CreateNewRecord from "./Table/CreateNewRecord";
+import { useDispatch } from "react-redux";
+import { getAllCars } from "../../redux/slice/reactTable/reactTableSlice";
+import { resetCreatePopupDatas } from "../../redux/slice/reactTable/reactTableSlice";
 
 const ReactTableApp = () => {
+  const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleModal = () => {
     setIsModalOpen(!isModalOpen);
+    dispatch(getAllCars());
+    dispatch(resetCreatePopupDatas());
   };
   return (
     <div>
